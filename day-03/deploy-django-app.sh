@@ -41,8 +41,10 @@ running_app() {
 
 echo "*********** Deployment Started **********"
 if ! clone_repo;then
-	echo "Some problem in cloning the repo!"
-	cd django-app
+	cd django-notes-app || exit 1
+	# This cd django-app || exit 1 is called as fallback, as in, if the first command doesn't work, then, we'll execute the second one. 
+	# Here, it means that if there's an issue in cloning then, there's a chance that the cloning has already been done, and that we need to just cd into that django-notes-app.
+       # But, the fallback will ensure that, if the cloning is not happening, and the folder also doesn't exist, then, we'll have to exit at that moment itself.	
 fi
 
 if ! install_dependencies; then
